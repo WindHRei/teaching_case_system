@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.TopicDescMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.TopicDesc">
+        <id column="id" property="id"/>
+        <result column="topic_id" property="topicId"/>
+        <result column="topic_content" property="topicContent"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.Comment">
+        insert into t_topic_description
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="topicId != null">
+                topic_id,
+            </if>
+            <if test="topicContent != null">
+                topic_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="topicId != null">
+                #{topicId},
+            </if>
+            <if test="topicContent != null">
+                #{topicContent},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_topic_description where id=#{id}
+    </select>
+</mapper>

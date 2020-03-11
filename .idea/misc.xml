@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-basic/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-teacher-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-topic-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-information-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-comment-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-netty-server/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-knowledge-base-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-knowledge-circle-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-menu-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/search/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/teaching-case/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/topic/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/knowledge-circle/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/knowledge-base/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/background/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/user/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-case-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-comment-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-message-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-knowledge-base-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-knowledge-circle-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-menu-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-teacher-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-topic-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-basic/commons/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-basic/entity/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-basic/mapper/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-sso-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-sms-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-sso-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-sms-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-case-service/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/tcs-api/case_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/comment-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/comment_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/information_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/knowledge_base_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/knowledge_circle_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/menu_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/teacher_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/topic_api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/case_service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/teacher_service/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

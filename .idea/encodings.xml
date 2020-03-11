@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-case-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-comment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-comment-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-knowledge-base-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-knowledge-circle-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-menu-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-message-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-sms-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-sso-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-teacher-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-api/tcs-topic-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-basic/commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-basic/entity/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-basic/mapper/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-case-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-comment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-information-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-knowledge-base-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-knowledge-circle-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-menu-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-netty-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-sms-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-sso-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-teacher-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-service/tcs-topic-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/background/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/knowledge-base/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/knowledge-circle/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/search/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/teaching-case/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/topic/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tcs-web/user/src/main/java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

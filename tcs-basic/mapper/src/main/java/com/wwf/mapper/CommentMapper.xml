@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="comment_from_id" property="commentFromId"/>
+        <result column="comment_from_name" property="commentFromName"/>
+        <result column="comment_content" property="commentContent"/>
+        <result column="comment_create_time" property="commentCreateTime"/>
+        <result column="comment_status" property="commentStatus"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.Comment">
+        insert into t_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentFromId != null">
+                comment_from_id,
+            </if>
+            <if test="commentFromName != null">
+                comment_from_name,
+            </if>
+            <if test="commentContent != null">
+                comment_content,
+            </if>
+            comment_create_time,comment_status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentFromId != null">
+                #{commentFromId},
+            </if>
+            <if test="commentFromName != null">
+                #{commentFromName},
+            </if>
+            <if test="commentContent != null">
+                #{commentContent},
+            </if>
+            now(),1
+        </trim>
+    </insert>
+    <update id="deleteByPrimaryKey" parameterType="int">
+        update t_comment set comment_status=0 where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_comment where comment_status = 1 and id=#{id}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select * from t_comment where comment_status = 1
+    </select>
+</mapper>

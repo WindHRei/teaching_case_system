@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tcs-case-api" />
+        <module name="tcs-topic-api" />
+        <module name="tcs-netty-server" />
+        <module name="search" />
+        <module name="tcs-menu-api" />
+        <module name="tcs-comment-service" />
+        <module name="tcs-web" />
+        <module name="tcs-comment-api" />
+        <module name="topic" />
+        <module name="knowledge-circle" />
+        <module name="tcs-sso-api" />
+        <module name="knowledge-base" />
+        <module name="background" />
+        <module name="tcs-message-api" />
+        <module name="user" />
+        <module name="mapper" />
+        <module name="tcs-teacher-service" />
+        <module name="tcs-knowledge-circle-service" />
+        <module name="tcs-case-service" />
+        <module name="tcs-sso-service" />
+        <module name="tcs-knowledge-circle-api" />
+        <module name="teaching-case" />
+        <module name="tcs-service" />
+        <module name="tcs-information-service" />
+        <module name="tcs-topic-service" />
+        <module name="tcs-menu-service" />
+        <module name="commons" />
+        <module name="tcs-teacher-api" />
+        <module name="tcs-knowledge-base-api" />
+        <module name="tcs-sms-api" />
+        <module name="tcs-knowledge-base-service" />
+        <module name="entity" />
+        <module name="tcs-sms-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="background" options="-parameters" />
+      <module name="commons" options="-parameters" />
+      <module name="entity" options="-parameters" />
+      <module name="index" options="-parameters" />
+      <module name="knowledge-base" options="-parameters" />
+      <module name="knowledge-circle" options="-parameters" />
+      <module name="mapper" options="-parameters" />
+      <module name="search" options="-parameters" />
+      <module name="tcs-case-api" options="-parameters" />
+      <module name="tcs-case-service" options="-parameters" />
+      <module name="tcs-comment-api" options="-parameters" />
+      <module name="tcs-comment-service" options="-parameters" />
+      <module name="tcs-information-service" options="-parameters" />
+      <module name="tcs-knowledge-base-api" options="-parameters" />
+      <module name="tcs-knowledge-base-service" options="-parameters" />
+      <module name="tcs-knowledge-circle-api" options="-parameters" />
+      <module name="tcs-knowledge-circle-service" options="-parameters" />
+      <module name="tcs-menu-api" options="-parameters" />
+      <module name="tcs-menu-service" options="-parameters" />
+      <module name="tcs-message-api" options="-parameters" />
+      <module name="tcs-netty-server" options="-parameters" />
+      <module name="tcs-sms-api" options="-parameters" />
+      <module name="tcs-sms-service" options="-parameters" />
+      <module name="tcs-sso-api" options="-parameters" />
+      <module name="tcs-sso-service" options="-parameters" />
+      <module name="tcs-teacher-api" options="-parameters" />
+      <module name="tcs-teacher-service" options="-parameters" />
+      <module name="tcs-topic-api" options="-parameters" />
+      <module name="tcs-topic-service" options="-parameters" />
+      <module name="teaching-case" options="-parameters" />
+      <module name="topic" options="-parameters" />
+      <module name="user" options="-parameters" />
+    </option>
+  </component>
+</project>

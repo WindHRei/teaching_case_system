@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.TopicMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.Topic">
+        <id column="id" property="id"/>
+        <result column="type_id" property="typeId"/>
+        <result column="type_name" property="typeName"/>
+        <result column="topic_writer_id" property="topicWriterId"/>
+        <result column="topic_writer_name" property="topicWriterName"/>
+        <result column="topic_outline" property="topicOutline"/>
+        <result column="topic_create_time" property="createTime"/>
+        <result column="topic_likes_count" property="topicLikesCount"/>
+        <result column="topic_collect_count" property="topicCollectCount"/>
+        <result column="topic_status" property="topicStatus"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.Case">
+        insert into t_topic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="typeName != null">
+                type_name,
+            </if>
+            <if test="topicWriterId != null">
+                topic_writer_id,
+            </if>
+            <if test="topicWriterName != null">
+                topic_writer_name,
+            </if>
+            <if test="topicOutline != null">
+                topic_outline,
+            </if>
+            topic_create_time,topic_likes_count,topic_collect_count,topic_status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                #{typeId},
+            </if>
+            <if test="typeName != null">
+                #{typeName},
+            </if>
+            <if test="topicWriterId != null">
+                #{topicWriterId},
+            </if>
+            <if test="topicWriterName != null">
+                #{topicWriterName},
+            </if>
+            <if test="topicOutline != null">
+                #{topicOutline},
+            </if>
+            now(),0,0,1
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Topic">
+        update t_topic
+        <set>
+            <if test="typeId != null">
+                type_id = #{typeId},
+            </if>
+            <if test="typeName != null">
+                type_name = #{typeName},
+            </if>
+            <if test="topicWriterId != null">
+                topic_writer_id = #{topicWriterId},
+            </if>
+            <if test="topicWriterName != null">
+                topic_writer_name = #{topicWriterName},
+            </if>
+            <if test="topicOutline != null">
+                topic_outline = #{topicOutline},
+            </if>
+            <if test="topicLikesCount != null">
+                topic_likes_count = #{topicLikesCount},
+            </if>
+            <if test="topicCollectCount != null">
+                topic_collect_count = #{topicCollectCount},
+            </if>
+        </set>
+        where id=#{id} and topic_status = 1
+    </update>
+
+    <update id="deleteByPrimaryKey" parameterType="int">
+        update t_topic set topic_status = 0 where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_topic where topic_status=1 and
+        id = #{id}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select * from t_topic where topic_status = 1 order by create_time
+    </select>
+</mapper>

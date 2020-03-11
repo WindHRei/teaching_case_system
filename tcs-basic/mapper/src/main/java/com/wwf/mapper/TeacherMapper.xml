@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.TeacherMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.Teacher">
+        <id column="id" property="id"/>
+        <result column="user_no" property="userNo"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="nickname" property="nickName"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="fans_count" property="fansCount"/>
+        <result column="release_topic_count" property="releaseTopicCount"/>
+        <result column="release_case_count" property="releaseCaseCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="credit" property="credit"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.Case">
+        insert into t_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userNo != null">
+                user_no,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="nickName != null">
+                nickname,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            fans_count,release_topic_count,release_case_count,create_time,update_time,credit,status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userNo != null">
+                #{userNo},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="nickName != null">
+                #{nickName},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            0,0,0,now(),now(),0,1
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Teacher">
+        update t_teacher
+        <set>
+            <if test="userNo != null">
+                user_no = #{userNo},
+            </if>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="nickName != null">
+                nickname = #{nickName},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="fansCount != null">
+                fans_count = #{fansCount},
+            </if>
+            <if test="releaseTopicCount != null">
+                release_topic_count = #{releaseTopicCount},
+            </if>
+            <if test="releaseCaseCount != null">
+                release_case_count = #{releaseCaseCount},
+            </if>
+            <if test="credit != null">
+                credit = #{credit}
+            </if>
+            update_time = now()
+        </set>
+        where id=#{id} and status = 1
+    </update>
+
+    <update id="deleteByPrimaryKey" parameterType="int">
+        update t_teacher set status = 0 where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teacher where status=1 and
+        id = #{id}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select * from t_teacher
+    </select>
+    <select id="checkUserNameIsExist" parameterType="string" resultType="int">
+        select count(1) from t_teacher where username = #{username}
+    </select>
+    <select id="checkPhoneIsExist" parameterType="string" resultType="int">
+        select count(1) from t_teacher where phone = #{phone}
+    </select>
+    <select id="checkEmailIsExist" parameterType="string" resultType="int">
+        select count(1) from t_teacher where email = #{email}
+    </select>
+    <select id="selectByIdentification" parameterType="string" resultMap="BaseResultMap">
+        select id,username,password from t_teacher where status=1 and
+        phone = #{identification} or email = #{identification}
+    </select>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.KnowledgeBaseMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.KnowledgeBase">
+        <id column="id" property="id"/>
+        <result column="knowledge_base_type_id" property="typeId"/>
+        <result column="knowledge_base_type_name" property="typeName"/>
+        <result column="knowledge_base_title" property="title"/>
+        <result column="knowledge_base_writer" property="writer"/>
+        <result column="knowledge_base_content" property="content"/>
+        <result column="knowledge_base_create_time" property="createTime"/>
+        <result column="knowledge_base_update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.KnowledgeBase">
+        insert into t_knowledge_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                knowledge_base_type_id,
+            </if>
+            <if test="typeName != null">
+                knowledge_base_type_name,
+            </if>
+            <if test="title != null">
+                knowledge_base_title,
+            </if>
+            <if test="writer != null">
+                knowledge_base_writer,
+            </if>
+            <if test="content != null">
+                knowledge_base_content,
+            </if>
+            knowledge_base_create_time,knowledge_base_update_time,status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                #{typeId},
+            </if>
+            <if test="typeName != null">
+                #{typeName},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="writer != null">
+                #{writer},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            now(),now(),1
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.KnowledgeBase">
+        update t_knowledge_base
+        <set>
+            <if test="typeId != null">
+                knowledge_base_type_id = #{typeId},
+            </if>
+            <if test="typeName != null">
+                knowledge_base_type_name = #{typeName},
+            </if>
+            <if test="title != null">
+                knowledge_base_title = #{title},
+            </if>
+            <if test="writer != null">
+                knowledge_base_writer = #{writer},
+            </if>
+            <if test="content != null">
+                knowledge_base_content = #{content},
+            </if>
+            knowledge_base_update_time = now()
+        </set>
+        where id = #{id} and status = 1
+    </update>
+
+    <update id="deleteByPrimaryKey" parameterType="int">
+        update t_knowledge_base set status=0 where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_knowledge_base where status = 1 and id=#{id}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select * from t_knowledge_base where status = 1
+    </select>
+</mapper>

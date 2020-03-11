@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.CaseDescMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.CaseDesc">
+        <id column="id" property="id"/>
+        <result column="case_id" property="caseId"/>
+        <result column="case_background" property="caseBackground"/>
+        <result column="case_description" property="caseDesc"/>
+        <result column="case_summary" property="caseSummary"/>
+        <result column="case_template_name" property="caseTemplateName"/>
+        <result column="case_edit_time" property="caseEditTime"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.CaseDesc">
+        insert into t_teaching_case_description
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">
+                case_id,
+            </if>
+            <if test="caseBackground != null">
+                case_background,
+            </if>
+            <if test="caseDesc != null">
+                case_description,
+            </if>
+            <if test="caseSummary != null">
+                case_summary,
+            </if>
+            <if test="caseTemplateName != null">
+                case_template_name,
+            </if>
+            case_edit_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">
+                #{caseId},
+            </if>
+            <if test="caseBackground != null">
+                #{caseBackground},
+            </if>
+            <if test="caseDesc != null">
+                #{caseDesc},
+            </if>
+            <if test="caseSummary != null">
+                #{caseSummary},
+            </if>
+            <if test="caseTemplateName != null">
+                #{caseTemplateName},
+            </if>
+            now()
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.CaseDesc">
+        update t_teaching_case_description
+        <set>
+            <if test="caseId != null">
+                case_id = #{caseId},
+            </if>
+            <if test="caseBackground != null">
+                case_background = #{caseBackground},
+            </if>
+            <if test="caseDesc != null">
+                case_description = #{caseDesc},
+            </if>
+            <if test="caseSummary != null">
+                case_summary = #{caseSummary},
+            </if>
+            <if test="caseTemplateName != null">
+                case_template_name = #{caseTemplateName},
+            </if>
+            case_edit_time = now()
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="int">
+        delete from t_teaching_case_description where id = #{id}
+    </delete>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case_description where
+        id = #{id}
+    </select>
+</mapper>

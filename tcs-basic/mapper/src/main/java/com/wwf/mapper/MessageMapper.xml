@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.MessageMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.Message">
+        <id column="id" property="id"/>
+        <result column="from_user_id" property="fromUserId"/>
+        <result column="to_user_id" property="toUserId"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="message_type" property="messageType"/>
+        <result column="from_user_name" property="fromUserName"/>
+        <result column="to_user_name" property="toUserName"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.wwf.entity.KnowledgeCircle">
+        insert into t_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fromUserId != null">
+                from_user_id,
+            </if>
+            <if test="toUserId != null">
+                to_user_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="send_time != null">
+                send_time,
+            </if>
+            <if test="messageType != null">
+                message_type,
+            </if>
+            <if test="fromUserName != null">
+                from_user_name,
+            </if>
+            <if test="toUserName != null">
+                to_user_name,
+            </if>
+            create_time,status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fromUserId != null">
+                #{fromUserId},
+            </if>
+            <if test="toUserId != null">
+                #{toUserId},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime},
+            </if>
+            <if test="messageType != null">
+                #{messageType},
+            </if>
+            <if test="fromUserName != null">
+                #{fromUserName},
+            </if>
+            <if test="toUserName != null">
+                #{toUserName},
+            </if>
+            now()
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Message">
+        update t_message
+        <set>
+            <if test="fromUserId != null">
+                from_user_id = #{fromUserId},
+            </if>
+            <if test="toUserId != null">
+                to_user_id = #{toUserId},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime},
+            </if>
+            <if test="messageType != null">
+                message_type = #{messageType},
+            </if>
+            <if test="fromUserName != null">
+                from_user_name = #{fromUserName},
+            </if>
+            <if test="toUserName != null">
+                to_user_name = #{toUserName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_message where id=#{id}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select * from t_knowledge_circle where status = 0
+    </select>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwf.mapper.CaseMapper">
+    <resultMap id="BaseResultMap" type="com.wwf.entity.Case">
+        <id column="id" property="id"/>
+        <result column="case_title" property="caseTitle"/>
+        <result column="case_type_id" property="caseTypeId"/>
+        <result column="case_type_name" property="caseTypeName"/>
+        <result column="case_outline" property="caseOutline"/>
+        <result column="case_writer_id" property="caseWriterId"/>
+        <result column="case_writer_name" property="caseWriterName"/>
+        <result column="case_create_time" property="caseCreateTime"/>
+        <result column="case_update_time" property="caseUpdateTime"/>
+        <result column="case_collect_count" property="caseCollectCount"/>
+        <result column="case_likes_count" property="caseLikesCount"/>
+        <result column="case_status" property="caseStatus"/>
+        <result column="case_circle_id" property="circleId"/>
+        <result column="case_circle_creator_id" property="circleCreatorId"/>
+        <result column="case_circle_name" property="circleName"/>
+    </resultMap>
+
+    <insert id="insertSelective" parameterType="com.wwf.entity.Case">
+        insert into t_teaching_case
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseTitle != null">
+                case_title,
+            </if>
+            <if test="caseTypeId != null">
+                case_type_id,
+            </if>
+            <if test="caseTypeName != null">
+                case_type_name,
+            </if>
+            <if test="caseOutline != null">
+                case_outline,
+            </if>
+            <if test="caseWriterId != null">
+                case_writer_id,
+            </if>
+            <if test="caseWriterName != null">
+                case_writer_name,
+            </if>
+            <if test="caseCollectCount != null">
+                case_collect_count,
+            </if>
+            <if test="caseLikesCount != null">
+                case_likes_count,
+            </if>
+            <if test="circleId != null">
+                circle_id,
+            </if>
+            <if test="circleCreatorId != null">
+                circle_creator_id,
+            </if>
+            <if test="circleName != null">
+                circle_name,
+            </if>
+            case_create_time,case_update_time,case_status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="caseTitle != null">
+                #{caseTitle},
+            </if>
+            <if test="caseTypeId != null">
+                #{caseTypeId},
+            </if>
+            <if test="caseTypeName != null">
+                #{caseTypeName},
+            </if>
+            <if test="caseOutline != null">
+                #{caseOutline},
+            </if>
+            <if test="caseWriterId != null">
+                #{caseWriterId},
+            </if>
+            <if test="caseWriterName != null">
+                #{caseWriterName},
+            </if>
+            <if test="caseCollectCount != null">
+                #{caseCollectCount},
+            </if>
+            <if test="caseLikesCount != null">
+                #{caseLikesCount},
+            </if>
+            <if test="circleId != null">
+                #{circleId},
+            </if>
+            <if test="circleCreatorId != null">
+                #{circleCreatorId},
+            </if>
+            <if test="circleName != null">
+                #{circleName},
+            </if>
+            now(),now(),1
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Case">
+        update t_teaching_case
+        <set>
+            <if test="caseTitle != null">
+                case_title = #{caseTitle},
+            </if>
+            <if test="caseTypeId != null">
+                case_type_id = #{caseTypeId},
+            </if>
+            <if test="caseTypeName != null">
+                case_type_name = #{caseTypeName},
+            </if>
+            <if test="caseOutline != null">
+                case_outline = #{caseOutline},
+            </if>
+            <if test="caseWriterId != null">
+                case_writer_id = #{caseWriterId},
+            </if>
+            <if test="caseWriterName != null">
+                case_writer_name = #{caseWriterName},
+            </if>
+            <if test="caseCollectCount != null">
+                case_collect_count = #{caseCollectCount},
+            </if>
+            <if test="caseLikesCount != null">
+                case_likes_count = #{caseLikesCount},
+            </if>
+            <if test="circleId != null">
+                case_circle_id = #{circleId},
+            </if>
+            <if test="circleCreatorId != null">
+                case_circle_creator_id = #{circleCreatorId},
+            </if>
+            <if test="circleName != null">
+                case_circle_name = #{circleName},
+            </if>
+            case_update_time = now()
+        </set>
+        where id=#{id} and case_status = 1
+    </update>
+
+    <update id="deleteByPrimaryKey" parameterType="int">
+        update t_teaching_case set case_status = 0 where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case where case_status=1 and
+        id = #{id}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select * from t_teaching_case where case_status = 1 order by case_update_time
+    </select>
+</mapper>
