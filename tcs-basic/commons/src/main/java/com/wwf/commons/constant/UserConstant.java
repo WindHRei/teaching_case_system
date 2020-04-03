@@ -6,4 +6,6 @@ package com.wwf.commons.constant;
  */
 public class UserConstant {
     public static final String USER_LOGIN_KEY = "user:login:token:";
+    public static final String USER_TOKEN="user_token";
+    public static final String CHECK_CODE_KEY="user_check_code_";
 }

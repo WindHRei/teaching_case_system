@@ -15,11 +15,14 @@
         <result column="case_likes_count" property="caseLikesCount"/>
         <result column="case_status" property="caseStatus"/>
         <result column="case_circle_id" property="circleId"/>
-        <result column="case_circle_creator_id" property="circleCreatorId"/>
+        <result column="case_circle_image_url" property="circleImageUrl"/>
         <result column="case_circle_name" property="circleName"/>
+        <result column="case_comment_count" property="caseCommentCount"/>
+        <result column="case_writer_image_url" property="writerImageUrl"/>
+        <result column="case_timestamp" property="caseTimestamp"/>
     </resultMap>
 
-    <insert id="insertSelective" parameterType="com.wwf.entity.Case">
+    <insert id="insertSelective" parameterType="com.wwf.entity.Case" useGeneratedKeys="true" keyProperty="id">
         insert into t_teaching_case
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseTitle != null">
@@ -40,22 +43,26 @@
             <if test="caseWriterName != null">
                 case_writer_name,
             </if>
-            <if test="caseCollectCount != null">
-                case_collect_count,
+
+            <if test="circleId != null and circleId != '' ">
+                case_circle_id,
             </if>
-            <if test="caseLikesCount != null">
-                case_likes_count,
-            </if>
-            <if test="circleId != null">
-                circle_id,
-            </if>
-            <if test="circleCreatorId != null">
-                circle_creator_id,
+            <if test="circleImageUrl != null">
+                case_circle_image_url,
             </if>
             <if test="circleName != null">
-                circle_name,
+                case_circle_name,
             </if>
-            case_create_time,case_update_time,case_status
+            <if test="writerImageUrl != null">
+                case_writer_image_url,
+            </if>
+            <if test="caseStatus != null and caseStatus !='' ">
+                case_status,
+            </if>
+            <if test="caseTimestamp != null">
+                case_timestamp,
+            </if>
+            case_collect_count,case_likes_count,case_comment_count,case_create_time,case_update_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="caseTitle != null">
@@ -76,22 +83,25 @@
             <if test="caseWriterName != null">
                 #{caseWriterName},
             </if>
-            <if test="caseCollectCount != null">
-                #{caseCollectCount},
-            </if>
-            <if test="caseLikesCount != null">
-                #{caseLikesCount},
-            </if>
             <if test="circleId != null">
                 #{circleId},
             </if>
-            <if test="circleCreatorId != null">
-                #{circleCreatorId},
+            <if test="circleImageUrl != null">
+                #{circleImageUrl},
             </if>
             <if test="circleName != null">
                 #{circleName},
             </if>
-            now(),now(),1
+            <if test="writerImageUrl != null">
+                #{writerImageUrl},
+            </if>
+            <if test="caseStatus != null and caseStatus !='' ">
+                #{caseStatus},
+            </if>
+            <if test="caseTimestamp != null">
+                #{caseTimestamp},
+            </if>
+            0,0,0,now(),now()
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Case">
@@ -100,7 +110,7 @@
             <if test="caseTitle != null">
                 case_title = #{caseTitle},
             </if>
-            <if test="caseTypeId != null">
+            <if test="caseTypeId != null and caseTypeId != ''">
                 case_type_id = #{caseTypeId},
             </if>
             <if test="caseTypeName != null">
@@ -109,30 +119,39 @@
             <if test="caseOutline != null">
                 case_outline = #{caseOutline},
             </if>
-            <if test="caseWriterId != null">
+            <if test="caseWriterId != null and caseWriterId != ''">
                 case_writer_id = #{caseWriterId},
             </if>
             <if test="caseWriterName != null">
                 case_writer_name = #{caseWriterName},
             </if>
-            <if test="caseCollectCount != null">
+            <if test="caseCollectCount != null and caseCollectCount != ''">
                 case_collect_count = #{caseCollectCount},
             </if>
-            <if test="caseLikesCount != null">
+            <if test="caseLikesCount != null and caseLikesCount != '' ">
                 case_likes_count = #{caseLikesCount},
             </if>
-            <if test="circleId != null">
+            <if test="caseCommentCount != null and caseCommentCount != '' ">
+                case_comment_count = #{caseCommentCount},
+            </if>
+            <if test="circleId != null and circleId != ''">
                 case_circle_id = #{circleId},
             </if>
-            <if test="circleCreatorId != null">
-                case_circle_creator_id = #{circleCreatorId},
+            <if test="circleImageUrl != null and circleImageUrl !=''">
+                case_circle_image_url = #{circleImageUrl},
             </if>
             <if test="circleName != null">
                 case_circle_name = #{circleName},
             </if>
+            <if test="writerImageUrl != null">
+                case_writer_image_url = #{writerImageUrl},
+            </if>
+            <if test="caseStatus != null and caseStatus !='' ">
+                case_status = #{caseStatus},
+            </if>
             case_update_time = now()
         </set>
-        where id=#{id} and case_status = 1
+        where id=#{id}
     </update>
 
     <update id="deleteByPrimaryKey" parameterType="int">
@@ -143,6 +162,89 @@
         id = #{id}
     </select>
     <select id="list" resultMap="BaseResultMap">
-        select * from t_teaching_case where case_status = 1 order by case_update_time
+        select * from t_teaching_case where case_status = 1
+    </select>
+    <select id="getCaseByTeacherLikes" resultMap="BaseResultMap">
+        select * from t_teaching_case where case_status = 1 and case_type_id in
+        <foreach collection="list" item="typeId" open="(" separator="," close=")">
+            #{typeId.id}
+        </foreach>
+    </select>
+    <update id="updateByTeacherId" parameterType="com.wwf.entity.Case">
+        update t_teaching_case
+        <set>
+            <if test="caseWriterName != null and caseWriterName != ''">
+                case_writer_name = #{caseWriterName},
+            </if>
+            <if test="writerImageUrl != null and writerImageUrl != ''">
+                case_writer_image_url = #{writerImageUrl},
+            </if>
+        </set>
+        where case_writer_id = #{caseWriterId}
+    </update>
+
+    <select id="listByType" resultMap="BaseResultMap">
+        select * from t_teaching_case
+        <where>
+        <if test="typeId !=null and typeId!='' and typeId != 0">
+           and case_type_id = #{typeId}
+        </if>
+            and case_status = 1
+        </where>
+    </select>
+
+    <select id="selectByTime" parameterType="map" resultMap="BaseResultMap">
+        select * from t_teaching_case
+        <where>
+            <if test="startTime!=null and startTime !=''">
+                and case_update_time &gt;=#{startTime}
+            </if>
+            <if test="endTime!=null and endTime != ''">
+                and case_update_time &lt;=#{endTime}
+            </if>
+            and case_status=1
+        </where>
+    </select>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select * from t_teaching_case
+        <where>
+            <if test="userId!=null and userId!=''">
+                and case_writer_id = #{userId}
+            </if>
+            <if test="status!=null and status!=''">
+                and case_status=#{status}
+            </if>
+
+        </where>
+    </select>
+    <select id="selectReditCase" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case where id =#{caseId} and case_status = 2
+    </select>
+
+    <select id="getAllCaseByCircleId" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case where case_circle_id = #{circleId}
+    </select>
+    <select id="getPublishedCaseByCircleId" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case where case_circle_id = #{circleId} and case_status = 1
+    </select>
+    <select id="getCircleEditCaseById" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case where id = #{caseId} and case_status = 2
+    </select>
+    <select id="selectCaseStatus" parameterType="int" resultType="int">
+        select case_status from t_teaching_case where id = #{caseId}
+    </select>
+    <select id="getCircleCaseCount" parameterType="int" resultType="int">
+        select count(1) from t_teaching_case where case_status = 2
+        and case_circle_id = #{circleId}
+    </select>
+    <update id="updateCaseCommentCount">
+        update t_teaching_case set case_comment_count = #{count}
+        where id =#{caseId}
+    </update>
+    <select id="getCaseByIds" parameterType="list" resultMap="BaseResultMap">
+        select * from t_teaching_case where id in
+        <foreach collection="caseIds" item="caseId" open="(" close=")" separator=",">
+            #{caseId}
+        </foreach>
     </select>
 </mapper>

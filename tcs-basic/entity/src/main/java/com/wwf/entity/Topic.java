@@ -1,5 +1,7 @@
 package com.wwf.entity;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +27,7 @@ public class Topic implements Serializable {
      * @param createTime 创建时间
      * @param topicLikesCount 话题点赞数
      * @param topicCollectCount 话题收藏数
-     * @param topicStatus 话题状态，是否发布
+     * @param topicStatus 话题状态，是否发布 0--未发布 1--已发布，未结题  2--已发布，已结题
      * @param topicContent 话题内容
      *
      */
@@ -34,10 +36,28 @@ public class Topic implements Serializable {
     private String typeName;
     private int topicWriterId;
     private String topicWriterName;
+    private String writerImageUrl;
+    private String topicTitle;
     private String topicOutline;
-    private Date createTime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date updateTime;
     private int topicLikesCount;
     private int topicCollectCount;
+    private int topicCommentCount;
     private String topicStatus;
-    private String topicContent;
+    private String topicTimeStamp;
+    private Integer acceptCommentId;
+
+    private int topicCredit;
+
+    public Topic(JSONObject jsonObject) {
+        String typeId = jsonObject.getString("typeId");
+        this.typeId = Integer.parseInt(typeId);
+        this.typeName = jsonObject.getString("topicTypeName");
+        this.topicTimeStamp = jsonObject.getString("topicTimeStamp");
+        this.topicStatus = jsonObject.getString("topicStatus");
+        this.topicTitle = jsonObject.getString("topicTitle");
+        this.topicCredit = Integer.parseInt(jsonObject.getString("topicCredit"));
+        this.topicOutline = jsonObject.getString("topicOutline");
+    }
 }

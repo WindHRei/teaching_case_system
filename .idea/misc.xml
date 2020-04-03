@@ -42,6 +42,10 @@
         <option value="$PROJECT_DIR$/tcs-service/tcs-sso-service/pom.xml" />
         <option value="$PROJECT_DIR$/tcs-service/tcs-sms-service/pom.xml" />
         <option value="$PROJECT_DIR$/tcs-service/tcs-case-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/index/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-api/tcs-category-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-service/tcs-category-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tcs-web/login/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

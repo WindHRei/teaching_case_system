@@ -28,4 +28,11 @@
     <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
         select * from t_topic_description where id=#{id}
     </select>
+    <select id="selectByTopicId" parameterType="int" resultMap="BaseResultMap">
+        select * from t_topic_description where topic_id =#{topicId}
+    </select>
+    <update id="updateByTopicId" parameterType="com.wwf.entity.TopicDesc">
+        update t_topic_description
+        set topic_content =#{topicContent} where topic_id = #{topicId}
+    </update>
 </mapper>

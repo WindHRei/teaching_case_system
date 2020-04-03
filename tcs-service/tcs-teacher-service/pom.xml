@@ -55,6 +55,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+
         <!--引入dubbo依赖-->
         <dependency>
             <groupId>com.alibaba.boot</groupId>

@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8083
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tcs?useSSL=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/tcs?useSSL=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
   redis:
@@ -16,10 +16,10 @@ spring:
     timeout: 1000
 dubbo:
   application:
-    name: teacher-service-provider
+    name: sso-service-provider
   registry:
     protocol: zookeeper
     address: 101.37.168.55:2181
   protocol:
-    port: 20883
+    port: 20884
 

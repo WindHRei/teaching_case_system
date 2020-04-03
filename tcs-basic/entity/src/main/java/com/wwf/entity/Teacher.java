@@ -1,8 +1,10 @@
 package com.wwf.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,13 +41,36 @@ public class Teacher implements Serializable {
     private int age;
     private String sex;
     private String nickName;
+    private String imageUrl;
     private String phone;
     private String email;
     private int fansCount;
     private int releaseTopicCount;
     private int releaseCaseCount;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
     private int credit;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
     private String status;
+
+    /**
+     *   用户偏好
+     */
+    private String like;
+
+    /**
+     * @param collectCount 收藏数
+     * @param subscribeCount 订阅数
+     */
+    private Integer collectCount;
+
+    private Integer subscribeCount;
+    /**
+     * 接收前端图片数据
+     */
+    /*private MultipartFile file;*/
+
+
+
 }

@@ -36,7 +36,7 @@ public interface IBaseDao<T> {
      * @param id 查询条件
      * @return
      */
-    int selectByPrimaryKey(int id);
+    T selectByPrimaryKey(int id);
 
     /**
      * 批量删除

@@ -1,11 +1,14 @@
 package com.wwf.entity;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author WangWeifeng
@@ -29,16 +32,28 @@ public class KnowledgeCircle implements Serializable {
      * @param isExposed 是否暴露，是否只能通过知识圈号搜索加入
      */
     private int id;
-    private int typeId;
-    private String typeName;
     private int creatorId;
     private String creatorName;
     private String circleName;
     private String circleNo;
     private int circleMemberCount;
+    private int circleMemberLimit;
     private int circleCaseCount;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date circleCreateTime;
+    private String circleImageUrl;
     private String isExposed;
     private String status;
+    private String circleTimeStamp;
+    private List<Category> categories;
+    private Teacher creator;
+    private List<Teacher> members;
 
+    public KnowledgeCircle(JSONObject jsonObject) {
+        this.circleName = jsonObject.getString("circleName");
+        this.circleMemberLimit = Integer.parseInt(jsonObject.getString("circleMemberLimit"));
+        this.isExposed = jsonObject.getString("isExposed");
+        this.circleImageUrl = jsonObject.getString("imageUrl");
+        this.circleTimeStamp = jsonObject.getString("circleTimeStamp");
+    }
 }

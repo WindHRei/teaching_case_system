@@ -1,0 +1,19 @@
+server:
+  port: 8084
+spring:
+  redis:
+    host: 101.37.168.55
+    port: 6379
+    password: wind
+    jedis:
+      pool:
+        max-active: 66
+    timeout: 5000
+dubbo:
+  application:
+    name: sms-service-provider
+  registry:
+    protocol: zookeeper
+    address: 101.37.168.55:2181
+  protocol:
+    port: 20885

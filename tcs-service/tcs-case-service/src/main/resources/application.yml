@@ -1,5 +1,6 @@
+
 server:
-  port: 8081
+  port: 8084
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -14,11 +15,16 @@ spring:
       pool:
         max-active: 66
     timeout: 1000
+
 dubbo:
   application:
-    name: teacher-service-provider
+    name: case-service-provider
   registry:
     protocol: zookeeper
     address: 101.37.168.55:2181
   protocol:
-    port: 20882
+    port: 20886
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+

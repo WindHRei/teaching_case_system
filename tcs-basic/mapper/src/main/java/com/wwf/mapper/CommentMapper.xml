@@ -8,8 +8,9 @@
         <result column="comment_content" property="commentContent"/>
         <result column="comment_create_time" property="commentCreateTime"/>
         <result column="comment_status" property="commentStatus"/>
+        <result column="user_image_url" property="userImageUrl"/>
     </resultMap>
-    <insert id="insertSelective" parameterType="com.wwf.entity.Comment">
+    <insert id="insertSelective" parameterType="com.wwf.entity.Comment" useGeneratedKeys="true" keyProperty="id">
         insert into t_comment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="commentFromId != null">
@@ -20,6 +21,9 @@
             </if>
             <if test="commentContent != null">
                 comment_content,
+            </if>
+            <if test="userImageUrl != null">
+                user_image_url,
             </if>
             comment_create_time,comment_status
         </trim>
@@ -33,6 +37,9 @@
             <if test="commentContent != null">
                 #{commentContent},
             </if>
+            <if test="userImageUrl != null">
+                #{userImageUrl},
+            </if>
             now(),1
         </trim>
     </insert>
@@ -40,9 +47,36 @@
         update t_comment set comment_status=0 where id = #{id}
     </update>
     <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
-        select * from t_comment where comment_status = 1 and id=#{id}
+        select * from t_comment where comment_status != 0 and id=#{id}
     </select>
     <select id="list" resultMap="BaseResultMap">
-        select * from t_comment where comment_status = 1
+        select * from t_comment where comment_status != 0
     </select>
+    <select id="getCommentByIds" resultMap="BaseResultMap" parameterType="int">
+        select * from t_comment where id in
+        <foreach collection="list" open="(" close=")" separator="," item="commentId">
+            #{commentId}
+        </foreach>
+        order by comment_create_time DESC
+    </select>
+    <select id="getCommentIdByTopicId" parameterType="int" resultType="int">
+        select comment_id from t_topic_comment where topic_id = #{topicId}
+    </select>
+    <select id="getCommentIdByCaseId" parameterType="int" resultType="int">
+        select comment_id from t_case_comment where case_id = #{caseId}
+    </select>
+
+    <insert id="addCommentToCase" >
+        insert into t_case_comment(case_id,comment_id) values (#{caseId},#{commentId})
+    </insert>
+    <select id="getCaseCommentCount" parameterType="int" resultType="int">
+        select count(1) from t_case_comment where case_id = #{caseId}
+    </select>
+    <insert id="addCommentToTopic">
+        insert into t_topic_comment(topic_id,comment_id) values (#{topicId},#{commentId})
+    </insert>
+    <select id="getTopicCommentCount" parameterType="int" resultType="int">
+        select count(1) from t_topic_comment where topic_id = #{topicId}
+    </select>
+
 </mapper>

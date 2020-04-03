@@ -9,11 +9,11 @@ import java.io.Serializable;
 
 public class ResultBean<T> implements Serializable {
     private String status;
-    private T t;
+    private T data;
 
-    public ResultBean(String status, T t) {
+    public ResultBean(String status, T data) {
         this.status = status;
-        this.t = t;
+        this.data = data;
     }
 
     public ResultBean() {
@@ -27,11 +27,11 @@ public class ResultBean<T> implements Serializable {
         this.status = status;
     }
 
-    public T getT() {
-        return t;
+    public T getData() {
+        return data;
     }
 
-    public void setT(T t) {
-        this.t = t;
+    public void setData(T data) {
+        this.data = data;
     }
 }

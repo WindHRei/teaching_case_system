@@ -9,6 +9,10 @@
         <result column="case_summary" property="caseSummary"/>
         <result column="case_template_name" property="caseTemplateName"/>
         <result column="case_edit_time" property="caseEditTime"/>
+        <result column="case_edit_user_id" property="caseEditUserId"/>
+    </resultMap>
+    <resultMap id="descExt" type="com.wwf.entity.CaseDesc" extends="BaseResultMap">
+        <result column="nickname" property="caseEditNickName"/>
     </resultMap>
     <insert id="insertSelective" parameterType="com.wwf.entity.CaseDesc">
         insert into t_teaching_case_description
@@ -28,6 +32,9 @@
             <if test="caseTemplateName != null">
                 case_template_name,
             </if>
+            <if test="caseEditUserId != null and caseEditUserId != ''">
+                case_edit_user_id,
+            </if>
             case_edit_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -45,6 +52,9 @@
             </if>
             <if test="caseTemplateName != null">
                 #{caseTemplateName},
+            </if>
+            <if test="caseEditUserId !=null and  caseEditUserId != '' ">
+                #{caseEditUserId},
             </if>
             now()
         </trim>
@@ -67,6 +77,9 @@
             <if test="caseTemplateName != null">
                 case_template_name = #{caseTemplateName},
             </if>
+            <if test="caseEditUserId != null and caseEditUserId != '' ">
+                case_edit_user_id = #{caseEditUserId},
+            </if>
             case_edit_time = now()
         </set>
         where id=#{id}
@@ -80,4 +93,39 @@
         select * from t_teaching_case_description where
         id = #{id}
     </select>
+    <select id="selectByCaseId" parameterType="int" resultMap="BaseResultMap">
+        select * from t_teaching_case_description where
+        case_id = #{caseId}
+    </select>
+    <update id="updateByCaseId" parameterType="com.wwf.entity.CaseDesc">
+        update t_teaching_case_description
+        <set>
+            <if test="caseBackground != null">
+                case_background = #{caseBackground},
+            </if>
+            <if test="caseDesc != null">
+                case_description = #{caseDesc},
+            </if>
+            <if test="caseSummary != null">
+                case_summary = #{caseSummary},
+            </if>
+            <if test="caseTemplateName != null">
+                case_template_name = #{caseTemplateName},
+            </if>
+            case_edit_time = now()
+        </set>
+        where case_id=#{caseId}
+    </update>
+
+    <select id="listExcludeUserById" parameterType="int" resultMap="descExt">
+        select t1.*,t2.nickname from t_teaching_case_description t1,t_teacher t2
+        where case_id=#{caseId}
+        and t1.case_edit_user_id = t2.id
+        and case_edit_user_id != #{currentId}
+    </select>
+    <select id="getCurrentTeacherCaseDesc" resultMap="BaseResultMap">
+        select * from t_teaching_case_description where case_id = #{caseId}
+        and case_edit_user_id = #{currentId}
+    </select>
+
 </mapper>

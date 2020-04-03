@@ -33,7 +33,7 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
     }
 
     @Override
-    public int selectByPrimaryKey(int id) {
+    public T selectByPrimaryKey(int id) {
         return getDao().selectByPrimaryKey(id);
     }
 

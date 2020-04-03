@@ -3,27 +3,66 @@
 <mapper namespace="com.wwf.mapper.KnowledgeCircleMapper">
     <resultMap id="BaseResultMap" type="com.wwf.entity.KnowledgeCircle">
         <id column="id" property="id"/>
-        <result column="type_id" property="typeId"/>
-        <result column="type_name" property="typeName"/>
         <result column="creator_id" property="creatorId"/>
         <result column="creator_name" property="creatorName"/>
         <result column="circle_no" property="circleNo"/>
         <result column="circle_name" property="circleName"/>
         <result column="circle_member_count" property="circleMemberCount"/>
+        <result column="circle_member_limit" property="circleMemberLimit"/>
         <result column="circle_case_count" property="circleCaseCount"/>
         <result column="circle_create_time" property="circleCreateTime"/>
         <result column="is_exposed" property="isExposed"/>
+        <result column="circle_image_url" property="circleImageUrl"/>
         <result column="status" property="status"/>
+        <result column="circle_timestamp" property="circleTimeStamp"/>
     </resultMap>
-    <insert id="insertSelective" parameterType="com.wwf.entity.KnowledgeCircle">
+    <resultMap id="circleAndTeacher" type="com.wwf.entity.KnowledgeCircle" extends="BaseResultMap">
+        <association property="creator" javaType="com.wwf.entity.Teacher">
+            <id column="creator_id" property="id"/>
+            <result column="nickname" property="nickName"/>
+            <result column="image_url" property="imageUrl"/>
+        </association>
+    </resultMap>
+    <resultMap id="circleAndCategory" type="com.wwf.entity.KnowledgeCircle" extends="circleAndTeacher" >
+        <collection property="categories" ofType="com.wwf.entity.Category" javaType="list" column="id" select="queryCategoryById">
+           <id column="type_id" property="id"/>
+            <result column="type_name" property="name"/>
+        </collection>
+    </resultMap>
+    <resultMap id="circleCategory" type="com.wwf.entity.Category">
+        <id column="type_id" property="id"/>
+        <result column="type_name" property="name"/>
+    </resultMap>
+    <select id="queryCategoryById" resultMap="circleCategory" parameterType="int">
+        select type_id,type_name from t_knowledge_circle_type where circle_id = #{id}
+    </select>
+    <select id="listCircle" resultMap="circleAndCategory">
+        select tkc.*,nickname,image_url
+        from t_knowledge_circle tkc,t_teacher t
+        WHERE tkc.creator_id = t.id
+        AND  tkc.status = 1 order by circle_create_time DESC
+    </select>
+    <select id="listCircleByIds" resultMap="circleAndCategory">
+        select tkc.*,nickname,image_url
+        from t_knowledge_circle tkc,t_teacher t
+        where tkc.creator_id = t.id
+        and tkc.status = 1 and tkc.id in
+        <foreach collection="circleIds" item="circleId" open="(" separator="," close=")">
+            #{circleId}
+        </foreach>
+    </select>
+    <select id="getCircleIdByUserId" resultType="int" parameterType="int">
+        select circle_id from t_knowledge_circle_teacher where teacher_id =#{currentTeacherId}
+    </select>
+    <select id="getCircleById" parameterType="int" resultMap="circleAndCategory">
+        select tkc.*,nickname as creator_name
+        from t_knowledge_circle tkc,t_teacher t
+        WHERE tkc.status = 1 and tkc.id = #{circleId} and tkc.creator_id = t.id
+    </select>
+
+    <insert id="insertSelective" parameterType="com.wwf.entity.KnowledgeCircle" useGeneratedKeys="true" keyProperty="id">
         insert into t_knowledge_circle
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="typeId != null">
-                type_id,
-            </if>
-            <if test="typeName != null">
-                type_name,
-            </if>
             <if test="creatorId != null">
                 creator_id,
             </if>
@@ -36,24 +75,21 @@
             <if test="circleName != null">
                 circle_name,
             </if>
-            <if test="circleMemberCount != null">
-                circle_member_count,
-            </if>
-            <if test="circleCaseCount != null">
-                circle_case_count,
+            <if test="circleMemberLimit != null">
+                circle_member_limit,
             </if>
             <if test="isExposed != null">
                 is_exposed,
             </if>
-            circle_create_time,status
+            <if test="circleImageUrl != null">
+                circle_image_url,
+            </if>
+            <if test="circleTimeStamp !=null">
+                circle_timestamp,
+            </if>
+            circle_member_count,circle_case_count,status,circle_create_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="typeId != null">
-                #{typeId},
-            </if>
-            <if test="typeName != null">
-                #{typeName},
-            </if>
             <if test="creatorId != null">
                 #{creatorId},
             </if>
@@ -66,27 +102,24 @@
             <if test="circleName != null">
                 #{circleName},
             </if>
-            <if test="circleMemberCount != null">
-                #{circleMemberCount},
-            </if>
-            <if test="circleCaseCount != null">
-                #{circleMemberCount},
+            <if test="circleMemberLimit != null">
+                #{circleMemberLimit},
             </if>
             <if test="isExposed != null">
                 #{isExposed},
             </if>
-            now(),1
+            <if test="circleImageUrl != null">
+                #{circleImageUrl},
+            </if>
+            <if test="circleTimeStamp != null">
+                #{circleTimeStamp},
+            </if>
+            1,0,1,now()
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.KnowledgeCircle">
         update t_knowledge_circle
         <set>
-            <if test="typeId != null">
-                type_id = #{typeId},
-            </if>
-            <if test="typeName != null">
-                type_name = #{typeName},
-            </if>
             <if test="creatorId != null">
                 creator_id = #{creatorId},
             </if>
@@ -108,6 +141,9 @@
             <if test="isExposed != null">
                 is_exposed = #{isExposed},
             </if>
+            <if test="circleImageUrl != null">
+                circle_image_url = #{circleImageUrl},
+            </if>
         </set>
         where id = #{id} and status = 1
     </update>
@@ -121,4 +157,31 @@
     <select id="list" resultMap="BaseResultMap">
         select * from t_knowledge_circle where status = 1
     </select>
+    <insert id="addMemberIds">
+        insert into t_knowledge_circle_teacher(circle_id,teacher_id) values
+        <foreach collection="memberIds" separator=","  item="memberId">
+            (#{circleId},#{memberId})
+        </foreach>
+    </insert>
+    <insert id="addCircleCategories">
+        insert into t_knowledge_circle_type(circle_id,type_id,type_name)
+        values
+        <foreach collection="categories" separator="," item="category">
+            (#{circleId},#{category.id},#{category.name})
+        </foreach>
+    </insert>
+    <select id="getCircleCount" resultType="int">
+        select count(1) from
+        t_knowledge_circle where status = 1
+    </select>
+    <select id="getMemberIds" parameterType="int" resultType="int">
+        select teacher_id from t_knowledge_circle_teacher where circle_id = #{circleId}
+    </select>
+    <select id="getCreatorIdByCircleId" parameterType="int" resultType="int">
+        select creator_id from t_knowledge_circle where id=#{circleId}
+    </select>
+    <update id="updateCircleCaseCount" >
+        update t_knowledge_circle set circle_case_count = #{caseCount} where
+        id = #{circleId}
+    </update>
 </mapper>

@@ -7,13 +7,19 @@
         <result column="type_name" property="typeName"/>
         <result column="topic_writer_id" property="topicWriterId"/>
         <result column="topic_writer_name" property="topicWriterName"/>
+        <result column="topic_writer_image_url" property="writerImageUrl"/>
+        <result column="topic_title" property="topicTitle"/>
         <result column="topic_outline" property="topicOutline"/>
-        <result column="topic_create_time" property="createTime"/>
+        <result column="topic_update_time" property="updateTime"/>
         <result column="topic_likes_count" property="topicLikesCount"/>
         <result column="topic_collect_count" property="topicCollectCount"/>
+        <result column="topic_comment_count" property="topicCommentCount"/>
         <result column="topic_status" property="topicStatus"/>
+        <result column="topic_timestamp" property="topicTimeStamp"/>
+        <result column="topic_credit" property="topicCredit"/>
+        <result column="accept_comment_id" property="acceptCommentId"/>
     </resultMap>
-    <insert id="insertSelective" parameterType="com.wwf.entity.Case">
+    <insert id="insertSelective" parameterType="com.wwf.entity.Case" useGeneratedKeys="true" keyProperty="id">
         insert into t_topic
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="typeId != null">
@@ -28,10 +34,25 @@
             <if test="topicWriterName != null">
                 topic_writer_name,
             </if>
+            <if test="writerImageUrl != null">
+                topic_writer_image_url,
+            </if>
+            <if test="topicTitle != null">
+                topic_title,
+            </if>
             <if test="topicOutline != null">
                 topic_outline,
             </if>
-            topic_create_time,topic_likes_count,topic_collect_count,topic_status
+            <if test="topicStatus !=null and topicStatus !=''">
+                topic_status,
+            </if>
+            <if test="topicTimeStamp!=null">
+                topic_timestamp,
+            </if>
+            <if test="topicCredit!=null and topicCredit != ''">
+                topic_credit,
+            </if>
+            topic_update_time,topic_comment_count,topic_likes_count,topic_collect_count,accept_comment_id
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="typeId != null">
@@ -46,38 +67,74 @@
             <if test="topicWriterName != null">
                 #{topicWriterName},
             </if>
+            <if test="writerImageUrl != null">
+                #{writerImageUrl},
+            </if>
+            <if test="topicTitle != null">
+                #{topicTitle},
+            </if>
             <if test="topicOutline != null">
                 #{topicOutline},
             </if>
-            now(),0,0,1
+            <if test="topicStatus !=null">
+                #{topicStatus},
+            </if>
+            <if test="topicTimeStamp!=null">
+                #{topicTimeStamp},
+            </if>
+            <if test="topicCredit!=null and topicCredit != ''">
+                #{topicCredit},
+            </if>
+            now(),0,0,0,0
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Topic">
         update t_topic
         <set>
-            <if test="typeId != null">
+            <if test="typeId != null and typeId != ''">
                 type_id = #{typeId},
             </if>
             <if test="typeName != null">
                 type_name = #{typeName},
             </if>
-            <if test="topicWriterId != null">
+            <if test="topicWriterId != null and topicWriterId != ''">
                 topic_writer_id = #{topicWriterId},
             </if>
             <if test="topicWriterName != null">
                 topic_writer_name = #{topicWriterName},
             </if>
+            <if test="writerImageUrl != null">
+                topic_writer_image_url = #{writerImageUrl},
+            </if>
+            <if test="topicTitle != null">
+                topic_title = #{topicTitle},
+            </if>
             <if test="topicOutline != null">
                 topic_outline = #{topicOutline},
             </if>
-            <if test="topicLikesCount != null">
+            <if test="topicLikesCount != null and topicLikesCount !=''">
                 topic_likes_count = #{topicLikesCount},
             </if>
-            <if test="topicCollectCount != null">
+            <if test="topicCollectCount != null and topicCollectCount != ''">
                 topic_collect_count = #{topicCollectCount},
             </if>
+            <if test="topicCommentCount != null and topicCommentCount != ''">
+                topic_comment_count = #{topicCommentCount},
+            </if>
+            <if test="topicStatus!=null and topicStatus!= ''">
+                topic_status = #{topicStatus},
+            </if>
+            <if test="topicCredit!=null and topicCredit!= ''">
+                topic_credit = #{topicCredit},
+            </if>
+            <if test="topicTimeStamp!=null">
+                topic_timestamp = #{topicTimeStamp},
+            </if>
+            <if test="acceptCommentId!=null and acceptCommentId != ''">
+                accept_comment_id = #{acceptCommentId},
+            </if>
         </set>
-        where id=#{id} and topic_status = 1
+        where id=#{id}
     </update>
 
     <update id="deleteByPrimaryKey" parameterType="int">
@@ -87,7 +144,53 @@
         select * from t_topic where topic_status=1 and
         id = #{id}
     </select>
+    <select id="selectUnReleasedTopic" parameterType="int" resultMap="BaseResultMap">
+        select * from t_topic where topic_status = 2 and id = #{topicId}
+    </select>
     <select id="list" resultMap="BaseResultMap">
-        select * from t_topic where topic_status = 1 order by create_time
+        select * from t_topic where topic_status = 1
+    </select>
+    <select id="getTopicByTeacherLikes" resultMap="BaseResultMap">
+        select * from t_topic where topic_status = 1
+        and type_id in
+        <foreach collection="list" item="category" open="(" separator="," close=")">
+            #{category.id}
+        </foreach>
+    </select>
+
+    <update id="updateTopicCommentCount">
+        update t_topic set topic_comment_count = #{count} where id = #{topicId}
+    </update>
+    <update id="updateByTeacherId" parameterType="com.wwf.entity.Topic">
+        update t_topic
+        <set>
+            <if test="topicWriterName != null and topicWriterName != ''">
+                topic_writer_name = #{topicWriterName},
+            </if>
+            <if test="writerImageUrl != null and topicWriterImageUrl != ''">
+                topic_writer_image_url  =#{writerImageUrl},
+            </if>
+        </set>
+        where topic_writer_id = #{topicWriterId}
+    </update>
+    <select id="listUserTopicByStatus" resultMap="BaseResultMap">
+        select * from t_topic
+        <where>
+            <if test="userId!=null and userId != ''">
+                and topic_writer_id = #{userId}
+            </if>
+            <if test="status !=null and status != ''">
+                and topic_status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="checkCurrentUser" resultMap="BaseResultMap">
+        select * from t_topic where id=#{topicId} and topic_writer_id = #{currentId} for update;
+    </select>
+    <select id="getTopicByIds" parameterType="list" resultMap="BaseResultMap">
+        select * from t_topic where id in
+        <foreach collection="topicIds" item="topicId" open="(" separator="," close=")">
+            #{topicId}
+        </foreach>
     </select>
 </mapper>

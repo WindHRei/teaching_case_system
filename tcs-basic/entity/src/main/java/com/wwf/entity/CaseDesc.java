@@ -1,5 +1,6 @@
 package com.wwf.entity;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,20 @@ public class CaseDesc implements Serializable {
      * @param caseTemplateName； 案例模板页面名称
      * @param caseEditTime 案例编辑时间
      */
-    private  int id;
-    private int caseId;
+    private  Integer id;
+    private Integer caseId;
     private String caseBackground;
     private String caseDesc;
     private String caseSummary;
     private String caseTemplateName;
     private Date caseEditTime;
+    private Integer caseEditUserId;
+    private String caseEditNickName;
+
+    public CaseDesc(JSONObject jsonObject) {
+        this.caseEditUserId = jsonObject.getInteger("caseEditUserId");
+        this.caseBackground = jsonObject.getString("caseBackground");
+        this.caseDesc = jsonObject.getString("caseDesc");
+        this.caseSummary = jsonObject.getString("caseSummary");
+    }
 }

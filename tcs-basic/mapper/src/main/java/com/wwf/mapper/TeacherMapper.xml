@@ -18,8 +18,11 @@
         <result column="update_time" property="updateTime"/>
         <result column="credit" property="credit"/>
         <result column="status" property="status"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="subscribe_count" property="subscribeCount"/>
+        <result column="collect_count" property="collectCount"/>
     </resultMap>
-    <insert id="insertSelective" parameterType="com.wwf.entity.Case">
+    <insert id="insertSelective" parameterType="com.wwf.entity.Teacher" useGeneratedKeys="true" keyProperty="id">
         insert into t_teacher
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userNo != null">
@@ -46,7 +49,10 @@
             <if test="email != null">
                 email,
             </if>
-            fans_count,release_topic_count,release_case_count,create_time,update_time,credit,status
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            collect_count,subscribe_count,fans_count,release_topic_count,release_case_count,create_time,update_time,credit,status
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userNo != null">
@@ -73,47 +79,59 @@
             <if test="email != null">
                 #{email},
             </if>
-            0,0,0,now(),now(),0,1
+            <if test="imageUrl != null">
+                #{imageUrl},
+            </if>
+            0,0,0,0,0,now(),now(),0,1
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.wwf.entity.Teacher">
         update t_teacher
         <set>
-            <if test="userNo != null">
+            <if test="userNo != null and userNo!=''">
                 user_no = #{userNo},
             </if>
-            <if test="username != null">
+            <if test="username != null and username!=''">
                 username = #{username},
             </if>
-            <if test="password != null">
+            <if test="password != null and password!=''">
                 password = #{password},
             </if>
-            <if test="age != null">
+            <if test="age != null and age!=''">
                 age = #{age},
             </if>
             <if test="sex != null">
                 sex = #{sex},
             </if>
-            <if test="nickName != null">
+            <if test="nickName != null and nickName!=''">
                 nickname = #{nickName},
             </if>
-            <if test="phone != null">
+            <if test="phone != null and phone!=''">
                 phone = #{phone},
             </if>
-            <if test="email != null">
+            <if test="email != null and email!=''">
                 email = #{email},
             </if>
-            <if test="fansCount != null">
+            <if test="fansCount != null and fansCount !=''">
                 fans_count = #{fansCount},
             </if>
-            <if test="releaseTopicCount != null">
+            <if test="releaseTopicCount != null and releaseTopicCount != ''">
                 release_topic_count = #{releaseTopicCount},
             </if>
-            <if test="releaseCaseCount != null">
+            <if test="releaseCaseCount != null and releaseCaseCount !=''">
                 release_case_count = #{releaseCaseCount},
             </if>
-            <if test="credit != null">
-                credit = #{credit}
+            <if test="credit != null and credit != ''">
+                credit = #{credit},
+            </if>
+            <if test="imageUrl != null and imageUrl != ''">
+                image_url = #{imageUrl},
+            </if>
+            <if test = "subscribeCount!=null and subscribeCount!=''">
+                subscribe_count = #{subscribeCount},
+            </if>
+            <if test="collectCount!=null and collectCount !=''">
+                collect_count =#{collectCount},
             </if>
             update_time = now()
         </set>
@@ -140,7 +158,87 @@
         select count(1) from t_teacher where email = #{email}
     </select>
     <select id="selectByIdentification" parameterType="string" resultMap="BaseResultMap">
-        select id,username,password from t_teacher where status=1 and
+        select * from t_teacher where status=1 and
         phone = #{identification} or email = #{identification}
+    </select>
+    <update id="updatePassword" parameterType="string">
+        update t_teacher set password = #{password} where
+        phone = #{username}
+    </update>
+    <insert id="addTeacherLikes">
+        insert into t_teacher_likes(teacher_id,type_id) values (#{teacherId},#{like})
+    </insert>
+    <select id="getTeacherLikes" parameterType="int" resultType="string">
+        select type_id from t_teacher_likes where teacher_id=#{id}
+    </select>
+    <update id="updateTeacherLikes">
+        update t_teacher_likes set type_id = #{like} where teacher_id = #{teacherId}
+    </update>
+    <update id="updateCollectCount" parameterType="int">
+        update t_teacher set collect_count = collect_count+1 where id = #{teacherId}
+    </update>
+    <update id="updateSubscribeCount" parameterType="int">
+        update t_teacher set subscribe_count = subscribe_count+1 where id = #{teacherId}
+    </update>
+
+    <update id="updateFansCount" parameterType="int">
+        update t_teacher set fans_count = fans_count+1 where id = #{teacherId}
+    </update>
+    <update id="updateReleaseCaseCount" parameterType="int">
+        update t_teacher set release_case_count = release_case_count+1 where id =#{teacherId}
+    </update>
+
+    <update id="updateReleaseTopicCount" parameterType="int">
+        update t_teacher set release_topic_count = release_topic_count+1 where id = #{teacherId}
+    </update>
+
+    <insert id="addTeacherSubscribe" parameterType="map">
+        insert into t_teacher_subscribe(teacher_id,subscribe_to_id,create_time)
+        values (#{currentTeacherId},#{targetTeacher.id},now())
+    </insert>
+
+    <select id="getTargetCount" resultType="int">
+        select count(1) from t_teacher_subscribe where subscribe_to_id = #{targetId}
+    </select>
+    <select id="getCurrentTeacherSubscribeCount" resultType="int" parameterType="int">
+        select count(1) from t_teacher_subscribe where teacher_id = #{id}
+    </select>
+
+    <insert id="addTeacherCollections" parameterType="map">
+        insert into t_teacher_collections(teacher_id,collections_type_id,collections_id,create_time)
+        values (#{userId},#{identity},#{targetId},now())
+    </insert>
+    <select id="getCollectCountByTeacherId" resultType="int">
+        select count(1) from t_teacher_collections where teacher_id = #{currentTeacherId}
+    </select>
+    <select id="getTargetCollectCount" resultType="int">
+        select count(1) from t_teacher_collections where collections_id =#{targetId}
+        and collections_type_id = #{typeId}
+    </select>
+    <select id="getMembers" parameterType="list" resultMap="BaseResultMap">
+        select * from t_teacher where id in
+        <foreach collection="list" item="memberId" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </select>
+    <select id="checkHasSubscribed" resultType="int">
+        select count(1) from t_teacher_subscribe where
+        teacher_id = #{currentId} and subscribe_to_id = #{writerId}
+    </select>
+    <select id="checkHasCollected" resultType="int">
+        select count(1) from t_teacher_collections where
+        teacher_id = #{currentId} and collections_type_id = #{identity}
+        and  collections_id = #{targetId}
+    </select>
+    <select id="getTeacherByIdForUpdate" resultMap="BaseResultMap" parameterType="int">
+        select * from t_teacher where id = #{commentFromId} for update;
+    </select>
+    <select id="getUserCollectCaseId" parameterType="int" resultType="int">
+        select collections_id from t_teacher_collections where
+        teacher_id =#{currentTeacherId} and collections_type_id = 1
+    </select>
+    <select id="getUserCollectTopicId" parameterType="int" resultType="int">
+        select collections_id from t_teacher_collections where
+        teacher_id =#{currentTeacherId} and collections_type_id = 2
     </select>
 </mapper>

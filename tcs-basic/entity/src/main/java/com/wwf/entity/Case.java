@@ -2,6 +2,8 @@ package com.wwf.entity;
 
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,21 +35,39 @@ public class Case implements Serializable {
      * @param circleId 案例所属知识圈id 可为空
      * @param circleCreatorId 案例所属知识圈创建者id
      * @param circleName 案例所属知识圈名称
+     * @param caseCommentCount 案例评论数
 
      * */
     private Integer id;
     private String caseTitle;
-    private int caseTypeId;
+    private Integer caseTypeId;
     private String caseTypeName;
     private String caseOutline;
-    private int caseWriterId;
+    private Integer caseWriterId;
     private String caseWriterName;
+    private String writerImageUrl;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date caseCreateTime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date caseUpdateTime;
-    private int caseCollectCount;
-    private int caseLikesCount;
+    private Integer caseCollectCount;
+    private Integer caseLikesCount;
+    private Integer caseCommentCount;
     private String caseStatus;
-    private int circleId;
-    private int circleCreatorId;
+    private Integer circleId;
+    private String circleImageUrl;
     private String circleName;
+    private String caseTimestamp;
+
+    public Case(JSONObject jsonObject) {
+        this.caseTitle = jsonObject.getString("caseTitle");
+        this.caseTypeId = Integer.parseInt(jsonObject.getString("caseTypeId"));
+        this.caseTypeName = jsonObject.getString("caseTypeName");
+        this.caseOutline = jsonObject.getString("caseOutline");
+        this.caseStatus = jsonObject.getString("caseStatus");
+        this.caseTimestamp = jsonObject.getString("caseTimestamp");
+        this.circleId = jsonObject.getInteger("circleId");
+        this.circleName = jsonObject.getString("circleName");
+        this.circleImageUrl = jsonObject.getString("circleImageUrl");
+    }
 }

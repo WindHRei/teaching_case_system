@@ -1,0 +1,22 @@
+spring:
+  redis:
+    host: 101.37.168.55
+    port: 6379
+    password: wind
+    jedis:
+      pool:
+        max-active: 66
+    timeout: 5000
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+dubbo:
+  application:
+    name: web-knowledge-circle
+  registry:
+    address: 101.37.168.55:2181
+    protocol: zookeeper
+server:
+  port: 9096

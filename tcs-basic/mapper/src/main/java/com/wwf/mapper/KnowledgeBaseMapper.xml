@@ -11,6 +11,12 @@
         <result column="knowledge_base_create_time" property="createTime"/>
         <result column="knowledge_base_update_time" property="updateTime"/>
         <result column="status" property="status"/>
+        <result column="knowledge_base_no" property="baseNo"/>
+    </resultMap>
+    <resultMap id="baseVO" type="com.wwf.commons.vo.CategoryVO">
+        <result column="knowledge_base_no" property="id"/>
+        <result column="knowledge_base_type_id" property="pid"/>
+        <result column="knowledge_base_title" property="name"/>
     </resultMap>
     <insert id="insertSelective" parameterType="com.wwf.entity.KnowledgeBase">
         insert into t_knowledge_base
@@ -30,6 +36,9 @@
             <if test="content != null">
                 knowledge_base_content,
             </if>
+            <if test="baseNo != null">
+                knowledge_base_no,
+            </if>
             knowledge_base_create_time,knowledge_base_update_time,status
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -47,6 +56,9 @@
             </if>
             <if test="content != null">
                 #{content},
+            </if>
+            <if test="baseNo != null">
+                #{baseNo}
             </if>
             now(),now(),1
         </trim>
@@ -69,6 +81,9 @@
             <if test="content != null">
                 knowledge_base_content = #{content},
             </if>
+            <if test="baseNo != null">
+                knowledge_base_no = #{baseNo},
+            </if>
             knowledge_base_update_time = now()
         </set>
         where id = #{id} and status = 1
@@ -82,5 +97,14 @@
     </select>
     <select id="list" resultMap="BaseResultMap">
         select * from t_knowledge_base where status = 1
+    </select>
+    <select id="selectVOByPid" resultMap="baseVO">
+        select knowledge_base_no,knowledge_base_type_id,knowledge_base_title from t_knowledge_base
+        where status = 1
+        and knowledge_base_type_id = #{parentId}
+    </select>
+    <select id="selectByBaseNo" parameterType="string" resultMap="BaseResultMap">
+        select * from t_knowledge_base where status = 1
+        and knowledge_base_no=#{baseNo}
     </select>
 </mapper>

@@ -9,36 +9,40 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tcs-case-api" />
         <module name="tcs-topic-api" />
+        <module name="entity" />
         <module name="tcs-netty-server" />
         <module name="search" />
         <module name="tcs-menu-api" />
-        <module name="tcs-comment-service" />
-        <module name="tcs-web" />
+        <module name="user" />
+        <module name="login" />
         <module name="tcs-comment-api" />
-        <module name="topic" />
         <module name="knowledge-circle" />
         <module name="tcs-sso-api" />
         <module name="knowledge-base" />
         <module name="background" />
         <module name="tcs-message-api" />
-        <module name="user" />
         <module name="mapper" />
         <module name="tcs-teacher-service" />
         <module name="tcs-knowledge-circle-service" />
+        <module name="tcs-comment-service" />
         <module name="tcs-case-service" />
         <module name="tcs-sso-service" />
         <module name="tcs-knowledge-circle-api" />
+        <module name="index" />
         <module name="teaching-case" />
         <module name="tcs-service" />
+        <module name="tcs-teacher-api" />
         <module name="tcs-information-service" />
+        <module name="tcs-category-service" />
         <module name="tcs-topic-service" />
+        <module name="tcs-web" />
         <module name="tcs-menu-service" />
         <module name="commons" />
-        <module name="tcs-teacher-api" />
+        <module name="tcs-category-api" />
         <module name="tcs-knowledge-base-api" />
         <module name="tcs-sms-api" />
         <module name="tcs-knowledge-base-service" />
-        <module name="entity" />
+        <module name="topic" />
         <module name="tcs-sms-service" />
       </profile>
     </annotationProcessing>
@@ -51,10 +55,13 @@
       <module name="index" options="-parameters" />
       <module name="knowledge-base" options="-parameters" />
       <module name="knowledge-circle" options="-parameters" />
+      <module name="login" options="-parameters" />
       <module name="mapper" options="-parameters" />
       <module name="search" options="-parameters" />
       <module name="tcs-case-api" options="-parameters" />
       <module name="tcs-case-service" options="-parameters" />
+      <module name="tcs-category-api" options="-parameters" />
+      <module name="tcs-category-service" options="-parameters" />
       <module name="tcs-comment-api" options="-parameters" />
       <module name="tcs-comment-service" options="-parameters" />
       <module name="tcs-information-service" options="-parameters" />
