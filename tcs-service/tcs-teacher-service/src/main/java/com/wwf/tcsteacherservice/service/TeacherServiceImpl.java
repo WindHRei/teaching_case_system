@@ -349,10 +349,18 @@ public class TeacherServiceImpl extends BaseServiceImpl<Teacher> implements ITea
         Teacher currentTeacher = (Teacher) redisTemplate.opsForValue().get(key);
         redisTemplate.expire(key,15,TimeUnit.MINUTES);
         int currentTeacherId = currentTeacher.getId();
-        List<Integer> caseIds = teacherMapper.getUserCollectCaseId(currentTeacherId);
-        List<Case> teachingCases = caseMapper.getCaseByIds(caseIds);
-        List<Integer> topicIds = teacherMapper.getUserCollectTopicId(currentTeacherId);
-        List<Topic> topics = topicMapper.getTopicByIds(topicIds);
+        try {
+            List<Integer> caseIds = teacherMapper.getUserCollectCaseId(currentTeacherId);
+            List<Case> teachingCases = caseMapper.getCaseByIds(caseIds);
+            List<Integer> topicIds = teacherMapper.getUserCollectTopicId(currentTeacherId);
+            List<Topic> topics = topicMapper.getTopicByIds(topicIds);
+            Map<String,Object> map = new HashMap<>();
+            map.put("teachingCases",teachingCases);
+            map.put("topics",topics);
+            return map;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 }
