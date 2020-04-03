@@ -94,4 +94,6 @@ public interface ITeacherService extends IBaseService<Teacher> {
     Object checkHasCollected(String identity, Integer targetId, String userToken);
 
     Map<String, Object> getTeacherCollections(String userToken);
+
+    Map<String, Object> getTeacherSubscribe(String userToken);
 }

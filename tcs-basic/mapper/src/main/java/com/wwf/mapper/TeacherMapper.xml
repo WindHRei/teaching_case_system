@@ -241,4 +241,7 @@
         select collections_id from t_teacher_collections where
         teacher_id =#{currentTeacherId} and collections_type_id = 2
     </select>
+    <select id="getSubscribeTeachers" parameterType="int" resultType="int">
+        select * from t_teacher_subscribe where teacher_id = #{currentTeacherId}
+    </select>
 </mapper>

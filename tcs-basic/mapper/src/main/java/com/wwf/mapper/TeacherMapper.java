@@ -120,4 +120,6 @@ public interface TeacherMapper extends IBaseDao<Teacher> {
     List<Integer> getUserCollectCaseId(int currentTeacherId);
 
     List<Integer> getUserCollectTopicId(int currentTeacherId);
+
+    List<Integer> getSubscribeTeachers(int currentTeacherId);
 }

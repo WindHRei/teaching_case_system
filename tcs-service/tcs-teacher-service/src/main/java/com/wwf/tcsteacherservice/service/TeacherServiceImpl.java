@@ -363,4 +363,14 @@ public class TeacherServiceImpl extends BaseServiceImpl<Teacher> implements ITea
         }
         return null;
     }
+
+    @Override
+    public Map<String, Object> getTeacherSubscribe(String userToken) {
+        String key = UserConstant.USER_LOGIN_KEY+userToken;
+        Teacher currentTeacher = (Teacher) redisTemplate.opsForValue().get(key);
+        int currentTeacherId = currentTeacher.getId();
+        List<Integer> teacherIds = teacherMapper.getSubscribeTeachers(currentTeacherId);
+        Map<String,Object> map = new HashMap<>();
+        return map;
+    }
 }
